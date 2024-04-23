@@ -12,12 +12,13 @@ var timer;
 var testBox; // a box to preview on the splash screen
 var dropTimer; // regulate box drops
 var presents = new Array(0); // an empty array called "presents"
+var score = 0; // keep track of points (starting at 0)
 
 function setup() {
   createCanvas(600, 400);
   player1 = new Player(width/2, height * 4/5);
   console.log(player1);
-  gameTimer = new Timer(5000); // 5 second timer
+  gameTimer = new Timer(5000); // 
   dropTimer = new Timer(1000); // 1 sec
   testBox = new Box(width/2, height/3);
 }
@@ -83,17 +84,22 @@ function play() {
     // present went below the canvas
     presents.splice(i, 1);
     // remove 1 element from from "presents" at index 'i'
+    score--; // decrement score by 1
   }
 
   let d = dist(presents[i].x, presents[i].y, player1.x, player1.y);
   if (d < 50) {
-    presents.splice(i, 1); 
+    presents.splice(i, 1);
+    score ++; // add 1 point! 
+
+
   }
    }
 
     textAlign(LEFT);
  text("elapsed time: " + gameTimer.elapsedTime, 40, 100);
  // show elapsed time in top left corner
+ text("Score: " + score, 20, 40);
 }
 
 function gameOver() {
@@ -103,6 +109,7 @@ function gameOver() {
   textAlign(CENTER);
   textSize(16);
   text("Game Over!", width / 2, height / 2);
+  text("Your final score: " + score, width/2, height * 2/3);
 }
 
 function mousePressed() {
@@ -111,6 +118,7 @@ function mousePressed() {
     gameState = "play"; // Move to the play state
     gameTimer.start(); // starts the timer
     dropTimer.start(); // start the drop timer for presents
+    score = 0; // reset score to 0 at start of game
   } else if (gameState == "play") {
     //gameState = "gameOver"; // Move to the game over state
   } else if (gameState == "gameOver") {
