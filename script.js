@@ -8,11 +8,13 @@
 // Global variable to track the game state
 var gameState = "splash";
 var player1;
+var timer; 
 
 function setup() {
   createCanvas(600, 400);
   player1 = new Player(width/2, height * 4/5);
   console.log(player1);
+  gameTimer = new Timer(5000); // 5 second timer
 }
 
 function draw() {
@@ -51,6 +53,13 @@ function play() {
   textSize(16);
   text("This is where the Game happens", width / 2, height / 2);
   player1.display();
+
+  if (gameTimer.isFinished()) {
+    gameState = "gameOver"
+  }
+  textAlign(LEFT);
+ text("elapsed time: " + gameTimer.elapsedTime, 40, 100);
+ // show elapsed time in top left corner
 }
 
 function gameOver() {
@@ -66,11 +75,13 @@ function mousePressed() {
   // Check the current game state and transition to the next state
   if (gameState == "splash") {
     gameState = "play"; // Move to the play state
+    gameTimer.start(); // starts the timer
   } else if (gameState == "play") {
-    gameState = "gameOver"; // Move to the game over state
+    //gameState = "gameOver"; // Move to the game over state
   } else if (gameState == "gameOver") {
     gameState = "splash"; // Move back to the splash state
   }
+
 
   console.log("click!");
 }
