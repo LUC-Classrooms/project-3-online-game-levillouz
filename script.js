@@ -7,9 +7,12 @@
 
 // Global variable to track the game state
 var gameState = "splash";
+var player1;
 
 function setup() {
   createCanvas(600, 400);
+  player1 = new Player(width/2, height * 4/5);
+  console.log(player1);
 }
 
 function draw() {
@@ -47,6 +50,7 @@ function play() {
   textAlign(CENTER);
   textSize(16);
   text("This is where the Game happens", width / 2, height / 2);
+  player1.display();
 }
 
 function gameOver() {
@@ -69,4 +73,23 @@ function mousePressed() {
   }
 
   console.log("click!");
+}
+
+function keyPressed() {
+  switch (keyCode){
+    case UP_ARROW :
+      player1.y -= 30;
+      break;
+      case DOWN_ARROW :
+        player1.y += 30;
+        break;
+        case LEFT_ARROW :
+        player1.x -= 30;
+        break;
+        case RIGHT_ARROW :
+          player1.x += 30;
+          break;
+          default : 
+            console.log("use the arrow keys to move");
+  }
 }
